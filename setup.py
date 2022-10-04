@@ -1,19 +1,22 @@
-from cx_Freeze import setup, Executable
+import cx_Freeze, sys
 
 base = None
-executables = [Executable("YOUR_FILE_NAME.py", base=base)]
 
-packages = ["idna"]
-options = {
-    'build_exe': {
-        'packages':packages,
-    },
-}
+if sys.platform == 'win32':
+    base = "Win32GUI"
 
-setup(
-    name = "YOUR_PROGRAM_NAME",
-    options = options,
-    version = "VERSION_NUMBER e.g. 0.1",
-    description = 'YOUR_PROGRAM_DESCRIPTION',
-    executables = executables
+executables = [cx_Freeze.Executable("binary_calculator.py",
+                                    base=base,
+                                    icon="binary.ico",
+                                    targetName="Binary_calculator")]
+
+cx_Freeze.setup(
+    name="Binary_calculator",
+    options={"build_exe": {"packages": ["tkinter"],
+                           "include_files": ["binary.ico",
+                                             "click_me.png",
+                                             "math.ico"]}},
+    version="1.0",
+    description="A simple way to convert decimal into binary",
+    executables=executables
 )
